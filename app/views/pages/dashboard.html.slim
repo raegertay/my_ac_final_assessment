@@ -26,13 +26,22 @@ hr
 
     ol
       - @notes.each do |note|
-        li
-          - if note.user == current_user
-            = "#{note.title} (#{link_to 'Edit', edit_note_path(note)} | #{link_to 'Delete', note_path(note), method: :delete})".html_safe
-          - else
-            = "#{note.title}".html_safe
+        -if user_signed_in?
+          li
+            - if note.user == current_user
+              = "#{note.title} (#{link_to 'Edit', edit_note_path(note)} | #{link_to 'Delete', note_path(note), method: :delete})".html_safe
+            - elsif note.liked?(current_user)
+              = "#{note.title} (#{link_to 'Unlike', unlike_path(note), method: :delete})".html_safe
+            - else
+              = "#{note.title} (#{link_to 'Like', like_path(note), method: :post})".html_safe
+            ul
+              li = note.body
+        - else
+          li
+            = note.title
           ul
             li = note.body
+
 
   .col-6
     h2 Users

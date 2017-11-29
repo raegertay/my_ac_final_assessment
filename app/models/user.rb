@@ -12,6 +12,8 @@ class User < ApplicationRecord
   has_many :inverse_followings, class_name: 'Following', foreign_key: :followee_id, dependent: :destroy
   has_many :followers, through: :inverse_followings
 
+  has_many :likes, dependent: :destroy
+
   def follow(user)
     followings.create(followee: user)
   end

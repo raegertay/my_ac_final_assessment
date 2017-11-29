@@ -34,6 +34,13 @@ class NotesController < ApplicationController
     redirect_to root_path
   end
 
+  def like
+    @note = Note.find(params[:id])
+    @note.likes.create(user: current_user)
+    flash[:notice] = 'Note liked'
+    redirect_to root_path
+  end
+
   private
 
   def note_params
