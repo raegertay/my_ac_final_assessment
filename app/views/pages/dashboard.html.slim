@@ -36,11 +36,13 @@ hr
               = "#{note.title} (#{link_to 'Like', like_path(note), method: :post})".html_safe
             ul
               li = note.body
+              li = "Total likes: <strong>#{note.total_likes}</strong>".html_safe
         - else
           li
             = note.title
           ul
             li = note.body
+            li = "Total likes: <strong>#{note.total_likes}</strong>".html_safe
 
 
   .col-6

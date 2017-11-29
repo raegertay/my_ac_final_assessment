@@ -9,4 +9,8 @@ class Note < ApplicationRecord
     likes.exists?(user_id: user.id)
   end
 
+  def total_likes
+    likes.count
+  end
+
 end
