@@ -6,6 +6,12 @@ class User < ApplicationRecord
 
   has_many :notes, dependent: :destroy
 
+  has_many :followings, foreign_key: :follower_id, dependent: :destroy
+  has_many :followees, through: :followings
+
+  has_many :inverse_followings, class_name: 'Following', foreign_key: :followee_id, dependent: :destroy
+  has_many :followers, through: :inverse_followings
+
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
