@@ -30,6 +30,11 @@ RSpec.describe User, type: :model do
     it { expect(user.following?(user2)).to eq(true) }
   end
 
+  describe '#name' do
+    let(:user2) { create(:user, email: 'test123@email.com') }
+    it { expect(user2.name).to eq('test123') }
+  end
+
   describe '#followee_notes' do
     let!(:note) { create(:note, user: user2) }
     before { user.follow(user2) }
