@@ -27,7 +27,10 @@ hr
     ol
       - @notes.each do |note|
         li
-          = note.title
+          - if note.user == current_user
+            = "#{note.title} (#{link_to 'Delete', note_path(note), method: :delete})".html_safe
+          - else
+            = "#{note.title}".html_safe
           ul
             li = note.body
 
