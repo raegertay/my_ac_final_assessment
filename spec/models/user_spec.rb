@@ -9,4 +9,31 @@ RSpec.describe User, type: :model do
   it { is_expected.to have_many(:followers).through(:inverse_followings) }
   it { is_expected.to have_many(:likes).dependent(:destroy) }
 
+  let(:user) { create(:user) }
+  let(:user2) { create(:user) }
+
+  describe '#follow' do
+    before { user.follow(user2) }
+    it { expect(user.followees).to contain_exactly(user2) }
+  end
+
+  describe '#unfollow' do
+    before do
+      user.follow(user2)
+      user.unfollow(user2)
+    end
+    it { expect(user.followees.count).to eq(0) }
+  end
+
+  describe '#following?' do
+    before { user.follow(user2) }
+    it { expect(user.following?(user2)).to eq(true) }
+  end
+
+  describe '#followee_notes' do
+    let!(:note) { create(:note, user: user2) }
+    before { user.follow(user2) }
+    it { expect(user.followee_notes.count).to eq(1) }
+  end
+
 end
