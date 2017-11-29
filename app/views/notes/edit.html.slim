@@ -1,0 +1,21 @@
+.row
+  .col-10
+  .col-2
+    - if user_signed_in?
+      = link_to 'Logout', destroy_user_session_path, method: :delete
+    - else
+      = link_to 'Register', new_user_registration_path
+      br
+      = link_to 'Login', new_user_session_path
+      br
+      = link_to "Sign in with Facebook", user_facebook_omniauth_authorize_path
+
+hr
+
+.row
+  .col-6
+    h4 Edit Note
+    = simple_form_for @note, url: note_path(@note), method: :put do |f|
+      = f.input :title
+      = f.input :body
+      = f.button :submit, 'Save'

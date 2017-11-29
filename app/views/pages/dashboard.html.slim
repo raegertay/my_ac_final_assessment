@@ -16,8 +16,8 @@ hr
   .row
     .col-6
       = simple_form_for @note, url: notes_path, method: :post do |f|
-        = f.input :title
-        = f.input :body
+        = f.input :title, placeholder: 'New title'
+        = f.input :body, placeholder: 'New body'
         = f.button :submit, 'Create note'
 
 .row
@@ -28,7 +28,7 @@ hr
       - @notes.each do |note|
         li
           - if note.user == current_user
-            = "#{note.title} (#{link_to 'Delete', note_path(note), method: :delete})".html_safe
+            = "#{note.title} (#{link_to 'Edit', edit_note_path(note)} | #{link_to 'Delete', note_path(note), method: :delete})".html_safe
           - else
             = "#{note.title}".html_safe
           ul
