@@ -47,6 +47,7 @@ class NotesController < ApplicationController
     @like = Like.find_by(note: @note, user: current_user)
     @like.destroy
     flash[:notice] = 'Note unliked'
+    NoteMailer.unlike_notice(@note.user, @note).deliver_later
     redirect_to root_path
   end
 
