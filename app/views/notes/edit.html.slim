@@ -14,6 +14,7 @@ hr
 
 .row
   .col-6
+    = link_to 'Back', root_path
     h4 Edit Note
     = simple_form_for @note, url: note_path(@note), method: :put do |f|
       = f.input :title
