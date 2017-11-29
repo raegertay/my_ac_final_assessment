@@ -58,3 +58,4 @@ gem "slim-rails"
 gem 'bootstrap', '~> 4.0.0.beta2.1'
 gem 'jquery-rails'
 gem 'simple_form'
+gem 'devise'
