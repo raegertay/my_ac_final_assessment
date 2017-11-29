@@ -38,6 +38,7 @@ class NotesController < ApplicationController
     @note = Note.find(params[:id])
     @note.likes.create(user: current_user)
     flash[:notice] = 'Note liked'
+    NoteMailer.like_notice(@note.user, @note).deliver_later
     redirect_to root_path
   end
 
