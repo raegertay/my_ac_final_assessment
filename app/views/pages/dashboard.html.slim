@@ -1,4 +1,4 @@
-.row
+.row.mt-2
   .col-10
   .col-2
     - if user_signed_in?
@@ -13,36 +13,37 @@
 hr
 
 - if user_signed_in?
-  .row
+  .row.mb-3.justify-content-center
     .col-6
-      = simple_form_for @note, url: notes_path, method: :post do |f|
-        = f.input :title, placeholder: 'New title'
-        = f.input :body, placeholder: 'New body'
-        = f.button :submit, 'Create note'
+      p.text-center <b>New Note</b>
+      = simple_form_for @note, url: notes_path, method: :post, defaults: { input_html: { class: 'form-control-sm' } }  do |f|
+        = f.input :title, placeholder: 'New title', label: false
+        = f.input :body, placeholder: 'New body', label: false
+        = f.button :submit, 'Create note', class: 'btn-sm btn-primary'
+  hr
 
 .row
   .col-6
     h2 Notes
 
-    ol
-      - @notes.each do |note|
-        -if user_signed_in?
-          li
+    - @notes.each do |note|
+      .card
+        .card-body
+          -if user_signed_in?
+            h5.card-title = note.title
+            p.card-text = note.body
+            p.card-text = "Total likes: <strong>#{note.total_likes}</strong>".html_safe
             - if note.user == current_user
-              = "#{note.title} (#{link_to 'Edit', edit_note_path(note)} | #{link_to 'Delete', note_path(note), method: :delete})".html_safe
+              = link_to 'Edit', edit_note_path(note), class: 'mr-3'
+              = link_to 'Delete', note_path(note), method: :delete
             - elsif note.liked?(current_user)
-              = "#{note.title} (#{link_to 'Unlike', unlike_path(note), method: :delete})".html_safe
+              = link_to 'Unlike', unlike_path(note), method: :delete
             - else
-              = "#{note.title} (#{link_to 'Like', like_path(note), method: :post})".html_safe
-            ul
-              li = note.body
-              li = "Total likes: <strong>#{note.total_likes}</strong>".html_safe
-        - else
-          li
-            = note.title
-          ul
-            li = note.body
-            li = "Total likes: <strong>#{note.total_likes}</strong>".html_safe
+              = link_to 'Like', like_path(note), method: :post
+          - else
+            h5.card-title = note.title
+            p.card-text = note.body
+            p.card-text = "Total likes: <strong>#{note.total_likes}</strong>".html_safe
 
 
   .col-6
