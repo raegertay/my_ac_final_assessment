@@ -6,4 +6,7 @@ Rails.application.routes.draw do
 
   resources :notes, except: [:index, :show]
 
+  post '/follow/:id', to: 'users#follow', as: 'follow'
+  delete '/unfollow/:id', to: 'users#unfollow', as: 'unfollow'
+
 end

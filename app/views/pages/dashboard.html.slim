@@ -36,3 +36,14 @@ hr
 
   .col-6
     h2 Users
+    ul
+      - @users.each do |user|
+        - if user_signed_in?
+          li
+            - if current_user.following?(user)
+              = "#{user.name} (#{link_to 'Unfollow', unfollow_path(user), method: :delete})".html_safe
+            - else
+              = "#{user.name} (#{link_to 'Follow', follow_path(user), method: :post})".html_safe
+        - else
+          li
+            = "#{user.name}"

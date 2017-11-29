@@ -12,6 +12,22 @@ class User < ApplicationRecord
   has_many :inverse_followings, class_name: 'Following', foreign_key: :followee_id, dependent: :destroy
   has_many :followers, through: :inverse_followings
 
+  def follow(user)
+    followings.create(followee: user)
+  end
+
+  def unfollow(user)
+    followees.destroy(user)
+  end
+
+  def following?(user)
+    followees.exists?(user.id)
+  end
+
+  def name
+    email.split('@')[0]
+  end
+
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
