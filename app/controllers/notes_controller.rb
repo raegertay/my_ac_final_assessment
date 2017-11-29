@@ -1,6 +1,7 @@
 class NotesController < ApplicationController
 
   before_action :authenticate_user!
+  before_action :prepare_note, except: [:create]
 
   def create
     @note = current_user.notes.build(note_params)
@@ -13,12 +14,9 @@ class NotesController < ApplicationController
     end
   end
 
-  def edit
-    @note = Note.find(params[:id])
-  end
+  def edit; end
 
   def update
-    @note = Note.find(params[:id])
     if @note.update(note_params)
       flash[:notice] = 'Note updated successfully'
       redirect_to root_path
@@ -28,14 +26,12 @@ class NotesController < ApplicationController
   end
 
   def destroy
-    @note = Note.find(params[:id])
     @note.destroy
     flash[:notice] = 'Note deleted'
     redirect_to root_path
   end
 
   def like
-    @note = Note.find(params[:id])
     @note.likes.create(user: current_user)
     flash[:notice] = 'Note liked'
     NoteMailer.like_notice(@note.user, @note).deliver_later
@@ -43,7 +39,6 @@ class NotesController < ApplicationController
   end
 
   def unlike
-    @note = Note.find(params[:id])
     @like = Like.find_by(note: @note, user: current_user)
     @like.destroy
     flash[:notice] = 'Note unliked'
@@ -55,6 +50,10 @@ class NotesController < ApplicationController
 
   def note_params
     params.require(:note).permit(:title, :body)
+  end
+
+  def prepare_note
+    @note = Note.find(params[:id])
   end
 
 end
