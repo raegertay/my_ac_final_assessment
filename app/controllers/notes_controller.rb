@@ -41,6 +41,14 @@ class NotesController < ApplicationController
     redirect_to root_path
   end
 
+  def unlike
+    @note = Note.find(params[:id])
+    @like = Like.find_by(note: @note, user: current_user)
+    @like.destroy
+    flash[:notice] = 'Note unliked'
+    redirect_to root_path
+  end
+
   private
 
   def note_params
