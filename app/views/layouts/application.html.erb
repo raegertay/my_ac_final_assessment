@@ -10,8 +10,12 @@
 
 <body>
   <div class='container'>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+    <% if notice %>
+      <p class="notice"><%= notice %></p>
+    <% end %>
+    <% if notice %>
+      <p class="alert"><%= alert %></p>
+    <% end %>  
     <%= yield %>
   </div>
 </body>
