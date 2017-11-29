@@ -4,4 +4,6 @@ Rails.application.routes.draw do
 
   root 'pages#dashboard'
 
+  resources :notes, except: [:index, :show]
+
 end
