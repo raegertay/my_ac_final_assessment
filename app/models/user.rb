@@ -28,6 +28,11 @@ class User < ApplicationRecord
     email.split('@')[0]
   end
 
+  def followee_notes
+    ids_to_include = self.followees.ids + [self.id]
+    Note.where(user_id: ids_to_include).order(created_at: :desc)
+  end
+
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email

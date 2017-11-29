@@ -1,13 +1,9 @@
 class PagesController < ApplicationController
 
   def dashboard
-    if user_signed_in?
-      @notes = Note.all
-    else
-      @notes = Note.all
-    end
-    @users = User.where.not(id: current_user)
     @note = Note.new
+    @notes = user_signed_in? ? current_user.followee_notes : Note.all
+    @users = User.where.not(id: current_user)
   end
 
 end
