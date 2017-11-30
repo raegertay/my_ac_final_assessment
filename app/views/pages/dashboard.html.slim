@@ -53,9 +53,9 @@ hr
         - if user_signed_in?
           li
             - if current_user.following?(user)
-              = "#{user.name} (#{link_to 'Unfollow', unfollow_path(user), method: :delete})".html_safe
+              = "#{@user_name_presenter.name(user)} (#{link_to 'Unfollow', unfollow_path(user), method: :delete})".html_safe
             - else
-              = "#{user.name} (#{link_to 'Follow', follow_path(user), method: :post})".html_safe
+              = "#{@user_name_presenter.name(user)} (#{link_to 'Follow', follow_path(user), method: :post})".html_safe
         - else
           li
-            = "#{user.name}"
+            = "#{@user_name_presenter.name(user)}"

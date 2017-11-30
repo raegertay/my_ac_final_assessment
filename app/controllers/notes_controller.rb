@@ -9,8 +9,11 @@ class NotesController < ApplicationController
       flash[:notice] = 'Note created successfully'
       redirect_to root_path
     else
-      flash[:alert] = 'Something went wrong. Please try again.'
-      redirect_to root_path
+      # flash[:alert] = 'Something went wrong. Please try again.'
+      # redirect_to root_path
+      @notes = user_signed_in? ? current_user.followee_notes : Note.all.order(created_at: :desc)
+      @users = User.where.not(id: current_user)
+      render 'pages/dashboard'
     end
   end
 

@@ -26,10 +26,6 @@ class User < ApplicationRecord
     followees.exists?(user.id)
   end
 
-  def name
-    email.split('@')[0]
-  end
-
   def followee_notes
     ids_to_include = self.followees.ids + [self.id]
     Note.where(user_id: ids_to_include).order(created_at: :desc)
