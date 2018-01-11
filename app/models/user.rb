@@ -31,6 +31,10 @@ class User < ApplicationRecord
     Note.where(user_id: ids_to_include).order(created_at: :desc)
   end
 
+  def name(user)
+    user.email.split('@')[0]
+  end
+
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
